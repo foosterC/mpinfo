@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Mini Information Spec
+
+host="$(hostname)"
+user="$(id -u -n)"
+resolution="$(xdpyinfo | awk '/dimensions/{print $2}')"
+os="$(cat /etc/system-release)"
+pc="$(cat /sys/devices/virtual/dmi/id/product_name)"
+shell="$(basename ${SHELL} )"
+term="$(echo $TERM )"
+memory="$(grep MemTotal /proc/meminfo | awk '{print $2 / 1024}')"
+kernel="$(uname -sr)"
+
+
+cat <<EOF
+=-------> ${host}@${user} <-------=
+${blue}HOST:       ${host}
+OS:         ${os}
+PRODUCT:    ${pc}
+RESOLUTION: ${resolution}
+SHELL:      ${shell}
+TERMINAL:   ${term}
+RAM:        ${memory} MB
+KERNEL:     ${kernel}
+
+EOF
